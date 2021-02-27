@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+}
+
+group 'de.falsedeveloping'
+version '1.0-SNAPSHOT'
+
+repositories {
+    maven {
+        url 'https://papermc.io/repo/repository/maven-public/'
+    }
+}
+
+dependencies {
+    compileOnly 'com.destroystokyo.paper:paper-api:1.16.4-R0.1-SNAPSHOT'
+}
+task copyPluginToTestserver(dependsOn: ['build'], type: Copy) {
+    from "${buildDir}/libs"
+    into "C:\\Users\\Anwender\\Desktop\\TestServer\\plugins"
+}
+compileJava {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}

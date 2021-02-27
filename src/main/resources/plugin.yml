@@ -1,0 +1,10 @@
+main: de.falsedeveloping.falseparty.Main
+name: falseParty
+version: 1.0.0
+description: Start a party!
+api-version: 1.13
+author: FalseDeveloping
+
+commands:
+  party:
+    description: Start a party
