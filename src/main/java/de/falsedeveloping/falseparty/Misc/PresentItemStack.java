@@ -32,6 +32,7 @@ public class PresentItemStack {
     return "§fGeschenk";
   }
 
+
   public ItemStack getContent() {
     //Get content of config file
     List<String> configContent = plugin.getConfiguration().getStringList("inhalt1");
