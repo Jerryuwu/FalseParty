@@ -28,10 +28,19 @@ public class PresentUse implements Listener {
     ItemStack item = plugin.getPresentItemStack().getContent();
     p.getInventory().addItem(item);
     removeItem(p.getInventory().getItemInMainHand());
-    p.sendMessage("§3Du hast §4" +item.getAmount() + " " + item.getType().name() + "§3 bekommen!");
+    p.sendMessage("§3Du hast §4" +item.getAmount() + " " + editText(item.getType().name()) + "§3 bekommen!");
   }
   public ItemStack removeItem(ItemStack i) {
     i.setAmount(i.getAmount() - 1);
     return i;
+  }
+
+  public String editText(String s) {
+    if (s.contains("_")) {
+      s.replace("_", " ");
+    }
+    s.toLowerCase();
+    Character.toUpperCase(s.charAt(0));
+    return s;
   }
 }
