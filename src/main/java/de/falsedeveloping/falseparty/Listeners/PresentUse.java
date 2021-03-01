@@ -2,6 +2,7 @@ package de.falsedeveloping.falseparty.Listeners;
 
 import de.falsedeveloping.falseparty.Main;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,6 +29,7 @@ public class PresentUse implements Listener {
     ItemStack item = plugin.getPresentItemStack().getContent();
     p.getInventory().addItem(item);
     removeItem(p.getInventory().getItemInMainHand());
+    p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
     p.sendMessage("§3Du hast §4" +item.getAmount() + " " + editText(item.getType().name()) + "§3 bekommen!");
     return;
   }
@@ -38,9 +40,7 @@ public class PresentUse implements Listener {
 
   public String editText(String s) {
     s = s.toLowerCase();
-    System.out.println(s);
     s = s.replace("_", " ");
-    System.out.println(s);
     return s;
   }
 }

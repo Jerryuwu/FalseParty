@@ -41,7 +41,6 @@ public class Party implements CommandExecutor {
             p.getLocation().getY() + 50,
             (float) plugin.getConfiguration().getDouble("radius"),
             plugin.getConfiguration().getInt("geschenke"));
-    System.out.println("Entering loop");
 
     // execute party on new thread
     new Thread(

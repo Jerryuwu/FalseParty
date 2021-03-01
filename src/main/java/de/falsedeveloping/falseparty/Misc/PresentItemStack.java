@@ -20,7 +20,12 @@ public class PresentItemStack {
     // TODO:CHECK
     ItemStack itemStack = new ItemStack(Material.PLAYER_HEAD, 1);
     SkullMeta meta = (SkullMeta) itemStack.getItemMeta();
-    meta.setOwner("MHF_Present1");
+    List<String> owners = new ArrayList<>();
+    owners.add("MHF_Present1");
+    owners.add("MHF_Present1");
+    owners.add("MHF_Present1");
+    owners.add("MHF_Present2");
+    meta.setOwner(owners.get(new Random().nextInt(4)));
     meta.setDisplayName(getName());
     List<String> lores = new ArrayList<>();
     lores.add("§fDrücke Rechtsklick, um das Geschenk zu öffnen!");
@@ -47,12 +52,10 @@ public class PresentItemStack {
 
     // Choose content of present by randomly picking item
     ItemStack itemContent = itemContentList.get(new Random().nextInt(itemContentList.size()));
-    System.out.println("Previous item amount: " + itemContent.getAmount());
 
     // Randomizing item amount
     int contentAmount = itemContent.getAmount();
     itemContent.setAmount(new Random().nextInt(contentAmount) + 1);
-    System.out.println("Generated amount: " + itemContent.getAmount());
     return itemContent;
   }
 }

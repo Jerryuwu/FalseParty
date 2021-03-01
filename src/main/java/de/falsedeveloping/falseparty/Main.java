@@ -1,6 +1,7 @@
 package de.falsedeveloping.falseparty;
 
 import de.falsedeveloping.falseparty.Commands.Party;
+import de.falsedeveloping.falseparty.Listeners.PresentPickupSound;
 import de.falsedeveloping.falseparty.Listeners.PresentUse;
 import de.falsedeveloping.falseparty.Misc.PresentItemStack;
 import java.io.File;
@@ -20,7 +21,10 @@ public class Main extends JavaPlugin {
   public void onEnable() {
     PluginManager pm = Bukkit.getPluginManager();
     getCommand("partyy").setExecutor(new Party(this));
+
     pm.registerEvents(new PresentUse(this), this);
+    pm.registerEvents(new PresentPickupSound(this), this);
+
     File configFile = new File(getDataFolder(), "config.yml");
     if (!configFile.exists()) {
       configFile.getParentFile().mkdirs();
