@@ -16,7 +16,7 @@ dependencies {
 }
 task copyPluginToTestserver(dependsOn: ['build'], type: Copy) {
     from "${buildDir}/libs"
-    into "C:\\Users\\Anwender\\Desktop\\TestServer\\plugins"
+    into "C:\\Users\\jerom\\Desktop\\TestServer\\plugins"
 }
 compileJava {
     sourceCompatibility = '1.8'

@@ -29,6 +29,7 @@ public class PresentUse implements Listener {
     p.getInventory().addItem(item);
     removeItem(p.getInventory().getItemInMainHand());
     p.sendMessage("§3Du hast §4" +item.getAmount() + " " + editText(item.getType().name()) + "§3 bekommen!");
+    return;
   }
   public ItemStack removeItem(ItemStack i) {
     i.setAmount(i.getAmount() - 1);
@@ -36,11 +37,10 @@ public class PresentUse implements Listener {
   }
 
   public String editText(String s) {
-    if (s.contains("_")) {
-      s.replace("_", " ");
-    }
-    s.toLowerCase();
-    Character.toUpperCase(s.charAt(0));
+    s = s.toLowerCase();
+    System.out.println(s);
+    s = s.replace("_", " ");
+    System.out.println(s);
     return s;
   }
 }
