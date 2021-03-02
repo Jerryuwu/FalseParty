@@ -29,7 +29,7 @@ public class PresentUse implements Listener {
     ItemStack item = plugin.getPresentItemStack().getContent();
     p.getInventory().addItem(item);
     removeItem(p.getInventory().getItemInMainHand());
-    p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+    p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.1f, 1);
     p.sendMessage("§3Du hast §4" +item.getAmount() + " " + editText(item.getType().name()) + "§3 bekommen!");
     return;
   }
