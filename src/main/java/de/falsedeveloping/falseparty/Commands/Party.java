@@ -38,7 +38,7 @@ public class Party implements CommandExecutor {
     List<Location> dropLocations =
         Radius.getRandomLocations(
             p.getLocation(),
-            p.getLocation().getY() + 50,
+            p.getLocation().getY() - 50,
             (float) plugin.getConfiguration().getDouble("radius"),
             plugin.getConfiguration().getInt("geschenke"));
 
@@ -64,7 +64,6 @@ public class Party implements CommandExecutor {
                       if (plugin.getConfiguration().getInt("pause") != 0)
                         Thread.sleep(plugin.getConfiguration().getInt("pause") * 1000L);
                       else Thread.sleep(5000);
-                      System.out.println(plugin.getConfiguration().getInt("pause"));
                     } catch (InterruptedException e) {
                       e.printStackTrace();
                     }
