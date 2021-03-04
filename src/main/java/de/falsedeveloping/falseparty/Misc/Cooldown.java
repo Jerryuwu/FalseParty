@@ -1,20 +1,31 @@
 package de.falsedeveloping.falseparty.Misc;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import de.falsedeveloping.falseparty.Main;
 
 public class Cooldown {
 
-  private final Map<UUID, Integer> cooldowns = new HashMap<>();
-
-  public static final int defaultCooldown = 15;
-
-  public void setCooldown(UUID uuid, int time) {
-    cooldowns.put(uuid, time);
+  private Main plugin;
+  public Cooldown(Main plugin) {
+    this.plugin = plugin;
   }
 
-  public int getCooldown(UUID uuid) {
-    return cooldowns.getOrDefault(uuid, 0);
+  private long cooldown = 0L;
+  public int mins = 1;
+
+  public Cooldown(long time, Main plugin) {
+    this.cooldown = time;
+    this.plugin = plugin;
+  }
+
+  public void setCommandCooldown(long ms) {
+    cooldown = ms;
+  }
+
+  public long getCommandCooldown() {
+    return cooldown;
+  }
+
+  public int getDefaultCooldown() {
+    return plugin.getConfiguration().getInt("cooldown") * 60 * 1000;
   }
 }

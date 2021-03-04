@@ -8,3 +8,5 @@ author: FalseDeveloping
 commands:
   partyy:
     description: Start a party
+  reloadparty:
+    description: reload config
