@@ -6,7 +6,7 @@ api-version: 1.13
 author: FalseDeveloping
 
 commands:
-  partyy:
+  party:
     description: Start a party
   reloadparty:
     description: reload config

@@ -26,7 +26,7 @@ public class Main extends JavaPlugin {
     pm.registerEvents(new PresentUse(this), this);
     pm.registerEvents(new PresentPickupSound(this), this);
 
-    getCommand("partyy").setExecutor(new Party(this));
+    getCommand("party").setExecutor(new Party(this));
     getCommand("reloadparty").setExecutor(new ReloadConfig(this));
 
     File configFile = new File(getDataFolder(), "config.yml");
