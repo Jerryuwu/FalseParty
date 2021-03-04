@@ -5,7 +5,6 @@ import de.falsedeveloping.falseparty.Misc.Cooldown;
 import de.falsedeveloping.falseparty.Misc.InstantFirework;
 import de.falsedeveloping.falseparty.Misc.Radius;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -18,12 +17,11 @@ import org.bukkit.entity.Player;
 public class Party implements CommandExecutor {
 
   private Main plugin;
-
   public Party(Main plugin) {
     this.plugin = plugin;
+    cooldown = new Cooldown(0,plugin);
   }
-
-  private final Cooldown cooldown = new Cooldown(System.currentTimeMillis());
+  private Cooldown cooldown;
 
   @Override
   public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -31,34 +29,43 @@ public class Party implements CommandExecutor {
     if (!(sender instanceof Player)) {
       return true;
     }
-
+    //check if player has permission
     Player p = (Player) sender;
-
-    long timeBetweenCommand = System.currentTimeMillis() - cooldown.getCommandCooldown();
-    if (timeBetweenCommand < cooldown.defaultCooldown) {
-      //Minutes between cooldown
-      long time = ((cooldown.mins * 60) - timeBetweenCommand / 1000)/60 + 1;
-      p.sendMessage("Du musst noch " + time + " Minute(n) warten, bis du diesen Befehl ausführen kannst!");
-      return true;
-    }
-    //Reset cooldown
-    cooldown.setCommandCooldown(System.currentTimeMillis());
-
     if (!(p.hasPermission("party.party"))) {
       p.sendMessage("Du hast dazu keine Rechte");
       return true;
     }
-    doParty(p);
-    // Create location + amount of drops
-    /*List<Location> dropLocations =
+
+    //check if cooldown has expired
+    long timeBetweenCommand = System.currentTimeMillis() - cooldown.getCommandCooldown();
+    if (timeBetweenCommand < cooldown.getDefaultCooldown()) {
+      //minutes between cooldown
+      long time = ((cooldown.mins * 60L) - timeBetweenCommand / 1000) / 60 + 1;
+      p.sendMessage(
+          "§cDu musst noch §4§l" + time + " Minute(n) §r§cwarten, bis du diesen Befehl ausführen kannst!");
+      return true;
+    }
+
+    //reset cooldown
+    cooldown.setCommandCooldown(System.currentTimeMillis());
+
+    //executing party
+    executeParty(p);
+
+    return true;
+  }
+
+  public void executeParty(Player p) {
+    //getting blocks in radius
+    List<Location> dropLocations =
         Radius.getRandomLocations(
             p.getLocation(),
             p.getLocation().getY() - 50,
             (float) plugin.getConfiguration().getDouble("radius"),
             plugin.getConfiguration().getInt("geschenke"));
-*/
-    // execute party on new thread
-    /*new Thread(
+    Bukkit.broadcastMessage("§6" + p.getName() + " hat eine Party gestartet!");
+    //executing party
+    new Thread(
             () -> {
               dropLocations.forEach(
                   location -> {
@@ -66,6 +73,7 @@ public class Party implements CommandExecutor {
                         .runTask(
                             plugin,
                             () -> {
+                              //dropping items with firework
                               p.getWorld()
                                   .dropItemNaturally(
                                       location, plugin.getPresentItemStack().getPresent());
@@ -74,7 +82,7 @@ public class Party implements CommandExecutor {
                                 Bukkit.broadcastMessage(
                                     plugin.getConfiguration().getString("dropnachricht"));
                             });
-                    // break between drops
+                    //pause between drops
                     try {
                       if (plugin.getConfiguration().getInt("pause") != 0)
                         Thread.sleep(plugin.getConfiguration().getInt("pause") * 1000L);
@@ -83,13 +91,11 @@ public class Party implements CommandExecutor {
                       e.printStackTrace();
                     }
                   });
-              // after loop
-              Bukkit.broadcastMessage(p.getName() + "'s Party ist vorbei!");
+              //after loop
+              Bukkit.broadcastMessage("§6" + p.getName() + "'s Party ist vorbei!");
             })
-        .start();*/
-    return true;
+        .start();
   }
-
   public FireworkEffect getEffect() {
     return FireworkEffect.builder()
         .flicker(false)
@@ -98,44 +104,5 @@ public class Party implements CommandExecutor {
         .withColor(Color.ORANGE)
         .withFade(Color.RED)
         .build();
-  }
-
-  public void doParty(Player p) {
-    List<Location> dropLocations =
-        Radius.getRandomLocations(
-            p.getLocation(),
-            p.getLocation().getY() - 50,
-            (float) plugin.getConfiguration().getDouble("radius"),
-            plugin.getConfiguration().getInt("geschenke"));
-
-    new Thread(
-        () -> {
-          dropLocations.forEach(
-              location -> {
-                Bukkit.getScheduler()
-                    .runTask(
-                        plugin,
-                        () -> {
-                          p.getWorld()
-                              .dropItemNaturally(
-                                  location, plugin.getPresentItemStack().getPresent());
-                          new InstantFirework(getEffect(), location);
-                          if (plugin.getConfiguration().getString("dropnachricht") != null)
-                            Bukkit.broadcastMessage(
-                                plugin.getConfiguration().getString("dropnachricht"));
-                        });
-                // break between drops
-                try {
-                  if (plugin.getConfiguration().getInt("pause") != 0)
-                    Thread.sleep(plugin.getConfiguration().getInt("pause") * 1000L);
-                  else Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                  e.printStackTrace();
-                }
-              });
-          // after loop
-          Bukkit.broadcastMessage(p.getName() + "'s Party ist vorbei!");
-        })
-        .start();
   }
 }
