@@ -11,5 +11,7 @@ radius: 10
 geschenke: 10
 #Zeit zwischen drops (wenn leer: 5 Sekunden)
 pause: 3
-#Nachricht bei drop (kann leer sein!)
+#Nachricht bei drop (Wenn leer: Plopp)
 dropnachricht:
+#Cooldown zwischen Parties
+cooldown: 1
