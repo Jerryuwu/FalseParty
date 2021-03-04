@@ -17,10 +17,12 @@ import org.bukkit.entity.Player;
 public class Party implements CommandExecutor {
 
   private Main plugin;
+
   public Party(Main plugin) {
     this.plugin = plugin;
-    cooldown = new Cooldown(0,plugin);
+    cooldown = new Cooldown(0, plugin);
   }
+
   private Cooldown cooldown;
 
   @Override
@@ -29,34 +31,36 @@ public class Party implements CommandExecutor {
     if (!(sender instanceof Player)) {
       return true;
     }
-    //check if player has permission
+    // check if player has permission
     Player p = (Player) sender;
     if (!(p.hasPermission("party.party"))) {
-      p.sendMessage("Du hast dazu keine Rechte");
+      p.sendMessage("§4Du hast dazu keine Rechte!");
       return true;
     }
 
-    //check if cooldown has expired
+    // check if cooldown has expired
     long timeBetweenCommand = System.currentTimeMillis() - cooldown.getCommandCooldown();
     if (timeBetweenCommand < cooldown.getDefaultCooldown()) {
-      //minutes between cooldown
+      // minutes between cooldown
       long time = ((cooldown.mins * 60L) - timeBetweenCommand / 1000) / 60 + 1;
       p.sendMessage(
-          "§cDu musst noch §4§l" + time + " Minute(n) §r§cwarten, bis du diesen Befehl ausführen kannst!");
+          "§cDu musst noch §4§l"
+              + time
+              + " Minute(n) §r§cwarten, bis du diesen Befehl ausführen kannst!");
       return true;
     }
 
-    //reset cooldown
+    // reset cooldown
     cooldown.setCommandCooldown(System.currentTimeMillis());
 
-    //executing party
+    // executing party
     executeParty(p);
 
     return true;
   }
 
   public void executeParty(Player p) {
-    //getting blocks in radius
+    // getting blocks in radius
     List<Location> dropLocations =
         Radius.getRandomLocations(
             p.getLocation(),
@@ -64,7 +68,7 @@ public class Party implements CommandExecutor {
             (float) plugin.getConfiguration().getDouble("radius"),
             plugin.getConfiguration().getInt("geschenke"));
     Bukkit.broadcastMessage("§6" + p.getName() + " hat eine Party gestartet!");
-    //executing party
+    // executing party
     new Thread(
             () -> {
               dropLocations.forEach(
@@ -73,7 +77,7 @@ public class Party implements CommandExecutor {
                         .runTask(
                             plugin,
                             () -> {
-                              //dropping items with firework
+                              // dropping items with firework
                               p.getWorld()
                                   .dropItemNaturally(
                                       location, plugin.getPresentItemStack().getPresent());
@@ -82,7 +86,7 @@ public class Party implements CommandExecutor {
                                 Bukkit.broadcastMessage(
                                     plugin.getConfiguration().getString("dropnachricht"));
                             });
-                    //pause between drops
+                    // pause between drops
                     try {
                       if (plugin.getConfiguration().getInt("pause") != 0)
                         Thread.sleep(plugin.getConfiguration().getInt("pause") * 1000L);
@@ -91,11 +95,12 @@ public class Party implements CommandExecutor {
                       e.printStackTrace();
                     }
                   });
-              //after loop
+              // after loop
               Bukkit.broadcastMessage("§6" + p.getName() + "'s Party ist vorbei!");
             })
         .start();
   }
+
   public FireworkEffect getEffect() {
     return FireworkEffect.builder()
         .flicker(false)

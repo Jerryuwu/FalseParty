@@ -21,7 +21,7 @@ public class ReloadConfig implements CommandExecutor {
     Player p = (Player) sender;
 
     if (!(p.hasPermission("party.reload"))) {
-      p.sendMessage("Hierzu hast du keine Rechte!");
+      p.sendMessage("§4Du hast dazu keine Rechte!");
       return true;
     }
 

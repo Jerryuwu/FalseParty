@@ -1,4 +1,4 @@
-#Inhalt#Anzahl Geschenk 1:
+#Inhalt Geschenk (Angabe in [ITEM#ANZAHL] ):
 inhalt1:
   - IRON_INGOT#8
   - GOLD_INGOT#4
@@ -6,12 +6,17 @@ inhalt1:
   - QUARTZ#16
   - EMERALD#2
 
-
+#Radius um den Spieler, in welchem die Geschenke Spawnen können
 radius: 10
+#Anzahl der Geschenke
 geschenke: 10
-#Zeit zwischen drops (wenn leer: 5 Sekunden)
+#Zeit zwischen drops (wenn leer: 5 Sekunden) [Sekunden]
 pause: 3
-#Nachricht bei drop (Wenn leer: Plopp)
+#Nachricht bei drop (Kann leer sein)
 dropnachricht:
-#Cooldown zwischen Parties
+#Cooldown zwischen Parties [Minuten]
 cooldown: 1
+
+Rechte:
+  party.party: Rechte für /party
+  party.reload: Rechte für /reloadparty
