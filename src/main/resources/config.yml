@@ -1,19 +1,30 @@
-#Inhalt Geschenk (Angabe in [ITEM#ANZAHL] ):
+#Inhalt Geschenke (Angabe in [ITEM#ANZAHL] ):
 inhalt1:
   - IRON_INGOT#8
   - GOLD_INGOT#4
   - DIAMOND#1
   - QUARTZ#16
   - EMERALD#2
+inhalt2:
+  - DIAMOND_BLOCK#1
+  - IRON_INGOT#32
+  - GOLD_INGOT#16
+
+#Chancen für Geschenk 1 [in Prozent, ohne %-Zeichen, Geschenk 2 hat restliche Chance]
+chance: 80
 
 #Radius um den Spieler, in welchem die Geschenke Spawnen können
 radius: 10
+
 #Anzahl der Geschenke
 geschenke: 10
+
 #Zeit zwischen drops (wenn leer: 5 Sekunden) [Sekunden]
 pause: 3
+
 #Nachricht bei drop (Kann leer sein)
 dropnachricht:
+
 #Cooldown zwischen Parties [Minuten]
 cooldown: 1
 

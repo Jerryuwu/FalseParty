@@ -17,7 +17,7 @@ public class PresentPickupSound implements Listener {
   public void onPresentPickup(EntityPickupItemEvent e) {
     if (!(e.getEntity() instanceof Player)) return;
     Player p = (Player) e.getEntity();
-    if (!(e.getItem().getItemStack().getItemMeta().getDisplayName().equals(plugin.getPresentItemStack().getName()))) return;
+    if (!(e.getItem().getItemStack().getItemMeta().getDisplayName().equals("§fRotes Geschenk")) && !(e.getItem().getItemStack().getItemMeta().getDisplayName().equals("§fGrünes Geschenk"))) return;
     p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.1f, 1);
   }
 

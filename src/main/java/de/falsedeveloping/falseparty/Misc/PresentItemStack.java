@@ -17,16 +17,23 @@ public class PresentItemStack {
   }
 
   public ItemStack getPresent() {
-    // TODO:CHECK
     ItemStack itemStack = new ItemStack(Material.PLAYER_HEAD, 1);
     SkullMeta meta = (SkullMeta) itemStack.getItemMeta();
-    List<String> owners = new ArrayList<>();
-    owners.add("MHF_Present1");
-    owners.add("MHF_Present1");
-    owners.add("MHF_Present1");
-    owners.add("MHF_Present2");
-    meta.setOwner(owners.get(new Random().nextInt(4)));
-    meta.setDisplayName(getName());
+    String owner;
+    String name;
+
+    double chance = plugin.getConfiguration().getDouble("chance") / 100;
+    float random = (float) Math.random();
+    if (chance > random) {
+      owner = "MHF_Present1";
+      name = "§fGrünes Geschenk";
+    } else {
+      owner = "MHF_Present2";
+      name = "§fRotes Geschenk";
+    }
+
+    meta.setOwner(owner);
+    meta.setDisplayName(name);
     List<String> lores = new ArrayList<>();
     lores.add("§fDrücke Rechtsklick, um das Geschenk zu öffnen!");
     meta.setLore(lores);
@@ -34,13 +41,12 @@ public class PresentItemStack {
     return itemStack;
   }
 
-  public String getName() {
-    return "§fGeschenk";
-  }
-
-  public ItemStack getContent() {
+  public ItemStack getContent(String name) {
     // Get content of config file
-    List<String> configContent = plugin.getConfiguration().getStringList("inhalt1");
+    String path;
+    if (name.equals("§fGrünes Geschenk")) path = "inhalt1";
+    else path = "inhalt2";
+    List<String> configContent = plugin.getConfiguration().getStringList(path);
     List<ItemStack> itemContentList =
         configContent.stream()
             .map(

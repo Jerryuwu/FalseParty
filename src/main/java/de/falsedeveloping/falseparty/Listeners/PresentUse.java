@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 public class PresentUse implements Listener {
 
   private Main plugin;
+
   public PresentUse(Main plugin) {
     this.plugin = plugin;
   }
@@ -24,15 +25,21 @@ public class PresentUse implements Listener {
     if (!(e.getAction().equals(Action.RIGHT_CLICK_AIR)
         || e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) return;
     if (e.getItem().getType() != Material.PLAYER_HEAD) return;
-    if (!(e.getItem().getItemMeta().getDisplayName().equals(plugin.getPresentItemStack().getName()))) return;
+    System.out.println("Hello2");
+    System.out.println(e.getItem().getItemMeta().getDisplayName());
+    if (!(e.getItem().getItemMeta().getDisplayName().equals("§fRotes Geschenk"))
+        && !(e.getItem().getItemMeta().getDisplayName().equals("§fGrünes Geschenk"))) return;
+    System.out.println("Hello3");
     e.setCancelled(true);
-    ItemStack item = plugin.getPresentItemStack().getContent();
+    ItemStack item = plugin.getPresentItemStack().getContent(e.getItem().getItemMeta().getDisplayName());
     p.getInventory().addItem(item);
     removeItem(p.getInventory().getItemInMainHand());
     p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.1f, 1);
-    p.sendMessage("§3Du hast §4" +item.getAmount() + " " + editText(item.getType().name()) + "§3 bekommen!");
+    p.sendMessage(
+        "§3Du hast §4" + item.getAmount() + " " + editText(item.getType().name()) + "§3 bekommen!");
     return;
   }
+
   public ItemStack removeItem(ItemStack i) {
     i.setAmount(i.getAmount() - 1);
     return i;
